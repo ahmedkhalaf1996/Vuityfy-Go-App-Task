@@ -39,36 +39,43 @@ export default {
     ...mapActions(["GetAllDataToPickList"]),
   },
   async created() {
+   try {
     const { data } = await this.GetAllDataToPickList();
-    console.log("d", data);
-
+    //console.log("d", data);
+    if(data){
+      
     /// =---------
     const formattedItems = [];
 
-    // Process the data from the store, filtering by "status" and "is_archived"
-    for (const x of data) {
-      if (x.status === true && x.is_archived === true) {
-        for (const order of x.order_list) {
-          const { title, img } = order;
-          // Generate a random character for the location
-          const location = String.fromCharCode(
-            65 + Math.floor(Math.random() * 26)
-          );
+// Process the data from the store, filtering by "status" and "is_archived"
+for (const x of data) {
+  if (x.status === true && x.is_archived === true) {
+    for (const order of x.order_list) {
+      const { title, img } = order;
+      // Generate a random character for the location
+      const location = String.fromCharCode(
+        65 + Math.floor(Math.random() * 26)
+      );
 
-          // Check if the title already exists in the formattedItems array
-          const existingItem = formattedItems.find(
-            (item) => item.title === title
-          );
+      // Check if the title already exists in the formattedItems array
+      const existingItem = formattedItems.find(
+        (item) => item.title === title
+      );
 
-          // If it doesn't exist, add it to the array
-          if (!existingItem) {
-            formattedItems.push({ title, img, location });
-          }
-        }
+      // If it doesn't exist, add it to the array
+      if (!existingItem) {
+        formattedItems.push({ title, img, location });
       }
     }
-    console.log("foramteddata", formattedItems);
-    this.items = formattedItems;
+  }
+}
+console.log("foramteddata", formattedItems);
+this.items = formattedItems;
+    }
+   } catch (error) {
+    console.log(error)
+   }
+
     //// -------
   },
 };

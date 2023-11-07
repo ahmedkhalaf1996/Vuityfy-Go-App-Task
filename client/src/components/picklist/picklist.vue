@@ -89,9 +89,14 @@ export default {
   },
 
   async created() {
-
-    const  {data} = await this.GetAllDataToPickList()
-    this.order = data 
+    try {
+      const  {data} = await this.GetAllDataToPickList()
+      if (data){
+        this.order = data 
+      } 
+    }catch (error){
+      console.log(error)
+    }
 
   },
 
